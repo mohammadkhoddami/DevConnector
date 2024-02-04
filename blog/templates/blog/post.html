@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+  <body>
+    {% block content %}
+    <section class="container">
+      <a href= {% url "posts" %} class="btn">Back To Posts</a>
+      <div class="post bg-white p-1 my-1">
+        <div>
+          <a href="{{ p.author.get_absolute_url }}">
+            <img
+              class="round-img"
+              src="{{ p.author.picture.url }}"
+              alt=""
+            />
+            <h4>{{ p.author.user.username }}</h4>
+          </a>
+        </div>
+        <div>
+          <h4> {{ p.title }} </h4>
+          <p class="my-1">
+            {{ p.body }}
+          </p>
+        </div>
+      </div>
+
+      <div class="post-form">
+        <div class="post-form-header bg-primary">
+          <h3>Leave A Comment</h3>
+        </div>
+
+        <form method = 'POST' action = "" class="form my-1">
+          {% csrf_token %}
+          <textarea
+            name="body"
+            cols="30"
+            rows="5"
+            placeholder="Comment on this post"
+          ></textarea>
+          <input type="submit" class="btn btn-dark my-1" value="Submit" />
+        </form>
+      </div>
+      
+      
+      
+      {% for comment in p.comments_set.all %}
+      <div class="posts">
+        <div class="post bg-white p-1 my-1">
+          
+          <div>
+            <a href= {{ comment.author.get_absolute_url }}>
+              <img
+                class="round-img"
+                style="width: 100px; height: 100px;"
+                src= {{ comment.author.picture.url }}
+                alt=""
+              />
+              <h4>{{ comment.author.user.username }}</h4>
+            </a>
+          </div>
+          <div>
+            <p class="my-1">
+              {{ comment.body }}
+              
+            </p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      
+    </section>
+{% endblock content %}
+  </body>
+</html>

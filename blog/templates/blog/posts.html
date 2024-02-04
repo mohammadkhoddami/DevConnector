@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+  <body>
+    {% block content %}
+    <section class="container">
+      <h1 class="large text-primary">
+        Posts
+      </h1>
+      <p class="lead"><i class="fas fa-user"></i> Welcome to the community</p>
+
+      <div class="post-form">
+        <div class="post-form-header bg-primary">
+          <h3>Say Something...</h3>
+        </div>
+        <form class="form my-1">
+          <textarea cols="30" rows="5" placeholder="Create a post"></textarea>
+          <input type="submit" value="Submit" class="btn btn-dark my-1" />
+        </form>
+        {% for posts in blog_post %}
+        <div class="posts">
+          
+          <div class="post bg-white my-1 p-1">
+            <div>
+              <a href="{{posts.author.get_absolute_url}}">
+                <img
+                  class="round-img"
+                  src= "{{posts.author.picture.url}}"
+                  alt="aasdasda"
+                />
+                <h4>{{ posts.author.user.username}}</h4>
+              </a>
+            </div>
+              
+            <div>
+              <h4>{{ posts.title }} </h4>
+              <p class="my-1">
+                
+                {{ posts.body.timesince }}
+              </p>
+              <small> {{ posts.created_at }} </small>
+              <button class="btn">
+                <i class="fas fa-thumbs-up"></i> <span> {{ posts.like.count }}</span>
+              </button>
+              <button class="btn">
+                <i class="fas fa-thumbs-down"></i> <span> {{ posts.dislike.count }} </span>
+              </button>
+              <a href= "{{ posts.get_absolute_url }}" class="btn btn-primary">
+                Discussion
+              </a>
+            </div>
+          </div>
+          {% endfor %}
+    {% endblock content %}
+  </body>
+</html>
